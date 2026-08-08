@@ -9,7 +9,7 @@ from livekit import rtc
 from livekit.agents.voice.avatar import AudioSegmentEnd, QueueAudioOutput
 
 from interactive_avatar.events import FrameType, OutputFrame
-from interactive_avatar.livekit_generator import TalkBoxGenerator, TalkBoxOptions
+from interactive_avatar.livekit_generator import AvatarHarnessGenerator, AvatarHarnessOptions
 
 from .config import IMTalkerConfig
 
@@ -31,10 +31,10 @@ class IMTalkerLiveAvatar:
             sample_rate=config.sample_rate,
             wait_playback_start=True,
         )
-        self.generator = TalkBoxGenerator(
+        self.generator = AvatarHarnessGenerator(
             source_image_path=str(config.source_image),
             idle_cache_path=str(config.idle_cache),
-            options=TalkBoxOptions(
+            options=AvatarHarnessOptions(
                 video_width=config.width,
                 video_height=config.height,
                 video_fps=config.fps,

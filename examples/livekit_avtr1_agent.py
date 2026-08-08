@@ -9,11 +9,11 @@ import sys
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
-TALKBOX_PYTHON = ROOT_DIR / ".venv" / "bin" / "python"
-if Path(sys.prefix).resolve() != TALKBOX_PYTHON.parent.parent.resolve():
+AVATAR_HARNESS_PYTHON = ROOT_DIR / ".venv" / "bin" / "python"
+if Path(sys.prefix).resolve() != AVATAR_HARNESS_PYTHON.parent.parent.resolve():
     os.execv(
-        str(TALKBOX_PYTHON),
-        [str(TALKBOX_PYTHON), str(Path(__file__).resolve()), *sys.argv[1:]],
+        str(AVATAR_HARNESS_PYTHON),
+        [str(AVATAR_HARNESS_PYTHON), str(Path(__file__).resolve()), *sys.argv[1:]],
     )
 
 sys.path.insert(0, str(ROOT_DIR))

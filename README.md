@@ -1,6 +1,6 @@
-# TalkBox
+# Avatar Harness
 
-TalkBox runs local talking-head models as LiveKit voice avatars. Every backend publishes
+Avatar Harness runs local talking-head models as LiveKit voice avatars. Every backend publishes
 matching video frames and 16 kHz mono PCM from one 25 Hz clock, including interruption
 handling and idle motion.
 
@@ -13,7 +13,7 @@ handling and idle motion.
 | [Interactive AvatarForcing](docs/backends/interactive-avatarforcing.md) | 512x512 | Continuously generated | Experimental | CC BY-NC 4.0 |
 | [AVTR-1](docs/backends/avtr1.md) | 1280x720 | Continuously generated | Experimental | Noncommercial components |
 
-Upstream repositories are pinned as Git submodules. TalkBox does not redistribute model
+Upstream repositories are pinned as Git submodules. Avatar Harness does not redistribute model
 checkpoints. Review each backend's license before use; the repository's Apache-2.0 license
 does not replace upstream model or asset terms.
 
@@ -29,8 +29,8 @@ Validated locally on an RTX 5090 with CUDA 12.8, PyTorch 2.7.1, and
 ## Install
 
 ```bash
-git clone --recurse-submodules https://github.com/i25959341/talkbox.git
-cd talkbox
+git clone --recurse-submodules https://github.com/i25959341/avatar-harness.git
+cd avatar-harness
 uv sync --extra dev
 cp .env.example .env.local
 ```
@@ -119,12 +119,12 @@ GPU and LiveKit diagnostics are listed in
 
 ## Adding a Backend
 
-Keep upstream code in a pinned submodule and the TalkBox adapter in
+Keep upstream code in a pinned submodule and the Avatar Harness adapter in
 `interactive_avatar/<backend>/`. A backend must validate its assets, prewarm once per
 worker, accept 16 kHz mono PCM, publish paired media on one monotonic clock, invalidate
 stale output after interruption, and document its license and concurrency limits.
 
 ## License
 
-TalkBox code is Apache-2.0. Submodules, checkpoints, and sample assets retain their
+Avatar Harness code is Apache-2.0. Submodules, checkpoints, and sample assets retain their
 upstream licenses and usage restrictions.

@@ -2,7 +2,7 @@
 
 ## Decision
 
-TalkBox backends publish audio and video directly through `rtc.AudioSource` and
+Avatar Harness backends publish audio and video directly through `rtc.AudioSource` and
 `rtc.VideoSource`. They do not send generated media through LiveKit's `AvatarRunner` or
 `AVSynchronizer`.
 
@@ -17,7 +17,7 @@ the adapter that owns the model state.
 
 ## Why
 
-TalkBox models generate batches faster than real time, then publish them at a steady
+Avatar Harness models generate batches faster than real time, then publish them at a steady
 rate. `AVSynchronizer` independently queues and paces video while forwarding audio
 through a different path. With bursty model output, that architecture previously caused
 audio to lead video even when locally rendered media was synchronized.

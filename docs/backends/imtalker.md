@@ -27,7 +27,7 @@ uv pip install --python .venv/bin/python \
 ```
 
 The old upstream Gradio app and LiveKit require incompatible `aiofiles` versions. The
-configuration above is for TalkBox live mode; use a separate environment for upstream
+configuration above is for Avatar Harness live mode; use a separate environment for upstream
 Gradio if a clean `pip check` is required.
 
 Download checkpoints:
@@ -78,5 +78,5 @@ python3 tools/create_livekit_join_url.py --room imtalker-live
 - One active room per warmed GPU process.
 - Initial speech waits for at least 400 ms of TTS PCM plus generation time.
 - False-interruption playback resume is unsupported; normal barge-in clearing works.
-- Upstream `app.py` initializes the model at import time, so TalkBox prewarms and reuses
+- Upstream `app.py` initializes the model at import time, so Avatar Harness prewarms and reuses
   that instance.

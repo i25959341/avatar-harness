@@ -2,7 +2,7 @@
 
 AVTR-1 generates 1280x720 video at 25 FPS from avatar speech, participant speech, and
 silence. One autoregressive state covers speaking, listening, and idle motion, so no
-cached idle clip is required. TalkBox publishes each five-frame I420 chunk with five
+cached idle clip is required. Avatar Harness publishes each five-frame I420 chunk with five
 matching 40 ms audio slices.
 
 This backend is experimental and noncommercial. AVTR-1 uses several licenses: its model
@@ -14,7 +14,7 @@ research. Review the upstream license files before use.
 
 Requirements: Linux, an Ampere-or-newer NVIDIA GPU, CUDA 12.8, TensorRT 10.x, and access
 to the gated [`avaturn-live/avtr-1`](https://huggingface.co/avaturn-live/avtr-1)
-repository. Start from the common [TalkBox install](../../README.md#install), install
+repository. Start from the common [Avatar Harness install](../../README.md#install), install
 Pixi locally, authenticate, then run the setup tool:
 
 ```bash

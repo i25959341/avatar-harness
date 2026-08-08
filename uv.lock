@@ -153,6 +153,38 @@ wheels = [
 ]
 
 [[package]]
+name = "avatar-harness"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "httpx" },
+    { name = "livekit-agents" },
+    { name = "numpy" },
+    { name = "opencv-python-headless" },
+    { name = "pillow" },
+    { name = "torch" },
+]
+
+[package.optional-dependencies]
+dev = [
+    { name = "pytest" },
+    { name = "ruff" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "httpx", specifier = ">=0.28,<0.29" },
+    { name = "livekit-agents", specifier = ">=1.6,<1.7" },
+    { name = "numpy", specifier = ">=1.26,<2" },
+    { name = "opencv-python-headless", specifier = ">=4.11,<5" },
+    { name = "pillow", specifier = ">=10" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8,<9" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.15,<0.16" },
+    { name = "torch", specifier = ">=2.7,<2.8" },
+]
+provides-extras = ["dev"]
+
+[[package]]
 name = "certifi"
 version = "2026.7.22"
 source = { registry = "https://pypi.org/simple" }
@@ -1273,38 +1305,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/83/d3/803453b36afefb7c2
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a2/09/77d55d46fd61b4a135c444fc97158ef34a095e5681d0a6c10b75bf356191/sympy-1.14.0-py3-none-any.whl", hash = "sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5", size = 6299353, upload-time = "2025-04-27T18:04:59.103Z" },
 ]
-
-[[package]]
-name = "talkbox-avatar"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "httpx" },
-    { name = "livekit-agents" },
-    { name = "numpy" },
-    { name = "opencv-python-headless" },
-    { name = "pillow" },
-    { name = "torch" },
-]
-
-[package.optional-dependencies]
-dev = [
-    { name = "pytest" },
-    { name = "ruff" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "httpx", specifier = ">=0.28,<0.29" },
-    { name = "livekit-agents", specifier = ">=1.6,<1.7" },
-    { name = "numpy", specifier = ">=1.26,<2" },
-    { name = "opencv-python-headless", specifier = ">=4.11,<5" },
-    { name = "pillow", specifier = ">=10" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8,<9" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.15,<0.16" },
-    { name = "torch", specifier = ">=2.7,<2.8" },
-]
-provides-extras = ["dev"]
 
 [[package]]
 name = "tomli"

@@ -3,7 +3,7 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "talkbox-avatar"
+name = "avatar-harness"
 version = "0.1.0"
 description = "Run open-source talking-head models as real-time LiveKit avatars"
 readme = "README.md"
@@ -25,9 +25,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/i25959341/talkbox"
-Issues = "https://github.com/i25959341/talkbox/issues"
-Repository = "https://github.com/i25959341/talkbox.git"
+Homepage = "https://github.com/i25959341/avatar-harness"
+Issues = "https://github.com/i25959341/avatar-harness/issues"
+Repository = "https://github.com/i25959341/avatar-harness.git"
 
 [tool.setuptools.packages.find]
 include = ["interactive_avatar*"]

@@ -1,7 +1,7 @@
 """
-TalkBox LiveKit VideoGenerator implementation.
+Avatar Harness LiveKit VideoGenerator implementation.
 
-Integrates TalkBox with LiveKit Agents SDK for real-time WebRTC streaming.
+Integrates Avatar Harness with LiveKit Agents SDK for real-time WebRTC streaming.
 Implements the VideoGenerator interface to work with AvatarRunner.
 """
 
@@ -65,26 +65,26 @@ def preload_model(device: str = "cuda"):
     """
     Preload the IMTalker model for use in prewarm.
 
-    Call this in prewarm() and pass the result to TalkBoxGenerator.
+    Call this in prewarm() and pass the result to AvatarHarnessGenerator.
 
     Returns:
         InferenceAgent instance
     """
-    print("TalkBox: Preloading model...")
+    print("Avatar Harness: Preloading model...")
     InferenceAgent, AppConfig = _get_model_classes()
     if _DefaultAgent is not None and str(_DefaultAgent.device) == device:
-        print("TalkBox: Reusing model initialized by IMTalker.")
+        print("Avatar Harness: Reusing model initialized by IMTalker.")
         return _DefaultAgent
     opt = AppConfig()
     opt.device = device
     agent = InferenceAgent(opt)
-    print("TalkBox: Model preloaded.")
+    print("Avatar Harness: Model preloaded.")
     return agent
 
 
 @dataclass
-class TalkBoxOptions:
-    """Configuration options for TalkBox generator."""
+class AvatarHarnessOptions:
+    """Configuration options for the Avatar Harness generator."""
 
     video_width: int = 512
     video_height: int = 512
@@ -98,15 +98,15 @@ class TalkBoxOptions:
     default_chunk_frames: int = 25  # 1000ms
 
 
-class TalkBoxGenerator(VideoGenerator):
+class AvatarHarnessGenerator(VideoGenerator):
     """
-    LiveKit VideoGenerator implementation for TalkBox.
+    LiveKit VideoGenerator implementation for Avatar Harness.
 
-    Wraps the TalkBox frame generation pipeline and exposes it through
+    Wraps the Avatar Harness frame generation pipeline and exposes it through
     the LiveKit VideoGenerator interface for real-time WebRTC streaming.
 
     Usage:
-        generator = TalkBoxGenerator(
+        generator = AvatarHarnessGenerator(
             source_image_path="avatar.png",
             idle_cache_path="outputs/cache/imtalker_idle.pt",
         )
@@ -120,7 +120,7 @@ class TalkBoxGenerator(VideoGenerator):
         self,
         source_image_path: str,
         idle_cache_path: str,
-        options: TalkBoxOptions | None = None,
+        options: AvatarHarnessOptions | None = None,
         device: str = "cuda",
         preloaded_agent=None,  # Pass pre-loaded InferenceAgent from prewarm
     ):
@@ -129,7 +129,7 @@ class TalkBoxGenerator(VideoGenerator):
                 "LiveKit SDK not installed. Install with: pip install livekit livekit-agents"
             )
 
-        self._options = options or TalkBoxOptions()
+        self._options = options or AvatarHarnessOptions()
         self._device = device
         self._source_image_path = source_image_path
         self._idle_cache_path = idle_cache_path
@@ -156,14 +156,14 @@ class TalkBoxGenerator(VideoGenerator):
         if self._started:
             return
 
-        print("TalkBoxGenerator: Initializing...")
+        print("AvatarHarnessGenerator: Initializing...")
 
         # Run initialization in thread pool (blocking operations)
         loop = asyncio.get_event_loop()
         await loop.run_in_executor(None, self._initialize_sync)
 
         self._started = True
-        print("TalkBoxGenerator: Ready.")
+        print("AvatarHarnessGenerator: Ready.")
 
     def _initialize_sync(self):
         """Synchronous initialization (runs in thread pool)."""
@@ -171,12 +171,12 @@ class TalkBoxGenerator(VideoGenerator):
 
         # 1. Load model (or use preloaded)
         if self._preloaded_agent is not None:
-            print("TalkBoxGenerator: Using preloaded agent")
+            print("AvatarHarnessGenerator: Using preloaded agent")
             self._agent = self._preloaded_agent
             opt = AppConfig()
             opt.device = self._device
         else:
-            print("TalkBoxGenerator: Loading model (no preloaded agent)")
+            print("AvatarHarnessGenerator: Loading model (no preloaded agent)")
             opt = AppConfig()
             opt.device = self._device
             self._agent = InferenceAgent(opt)
@@ -230,18 +230,18 @@ class TalkBoxGenerator(VideoGenerator):
         )
 
         # Start threads
-        print("TalkBoxGenerator: Starting IdlePusher thread...")
+        print("AvatarHarnessGenerator: Starting IdlePusher thread...")
         self._idle_pusher.start()
-        print("TalkBoxGenerator: Starting Producer thread...")
+        print("AvatarHarnessGenerator: Starting Producer thread...")
         self._producer.start()
-        print("TalkBoxGenerator: Threads started, waiting for frames...")
+        print("AvatarHarnessGenerator: Threads started, waiting for frames...")
 
     async def stop(self):
         """Stop the generator and cleanup."""
         if not self._started:
             return
 
-        print("TalkBoxGenerator: Stopping...")
+        print("AvatarHarnessGenerator: Stopping...")
         self._stop_event.set()
 
         # Stop threads
@@ -254,7 +254,7 @@ class TalkBoxGenerator(VideoGenerator):
             self._idle_pusher.join(timeout=2.0)
 
         self._started = False
-        print("TalkBoxGenerator: Stopped.")
+        print("AvatarHarnessGenerator: Stopped.")
 
     # --- VideoGenerator Interface ---
 
@@ -267,7 +267,7 @@ class TalkBoxGenerator(VideoGenerator):
         """
         if isinstance(frame, AudioSegmentEnd):
             # Audio stream ended - signal to producer to flush remaining audio
-            print("TalkBoxGenerator: AudioSegmentEnd received, signaling producer to flush")
+            print("AvatarHarnessGenerator: AudioSegmentEnd received, signaling producer to flush")
             self._speaking = False
 
             if self._resampler is not None:
@@ -284,14 +284,14 @@ class TalkBoxGenerator(VideoGenerator):
         audio_bytes = len(frame.data) if hasattr(frame, "data") else 0
         if not self._speaking:
             print(
-                f"TalkBoxGenerator: First audio frame received! sample_rate={frame.sample_rate}, bytes={audio_bytes}"
+                f"AvatarHarnessGenerator: First audio frame received! sample_rate={frame.sample_rate}, bytes={audio_bytes}"
             )
 
         # Resample if needed (LiveKit often sends 24kHz or 48kHz)
         if frame.sample_rate != self._options.audio_sample_rate:
             if self._resampler is None:
                 print(
-                    f"TalkBoxGenerator: Creating resampler {frame.sample_rate}Hz -> {self._options.audio_sample_rate}Hz"
+                    f"AvatarHarnessGenerator: Creating resampler {frame.sample_rate}Hz -> {self._options.audio_sample_rate}Hz"
                 )
                 self._resampler = rtc.AudioResampler(
                     input_rate=frame.sample_rate,
@@ -311,7 +311,7 @@ class TalkBoxGenerator(VideoGenerator):
         if not self._speaking:
             self._speaking = True
             print(
-                f"TalkBoxGenerator: Speaking state activated, audio queue size: {self._audio_queue.qsize()}"
+                f"AvatarHarnessGenerator: Speaking state activated, audio queue size: {self._audio_queue.qsize()}"
             )
             # NOTE: We no longer call set_producer_active(True) here.
             # The producer will take over naturally when speaking frames arrive,
@@ -324,7 +324,7 @@ class TalkBoxGenerator(VideoGenerator):
 
         Called by AvatarRunner when user interrupts the avatar.
         """
-        print("TalkBoxGenerator: Interrupt signal received")
+        print("AvatarHarnessGenerator: Interrupt signal received")
 
         if not self._started:
             return
@@ -399,7 +399,7 @@ class TalkBoxGenerator(VideoGenerator):
         frame_interval = 1.0 / self._options.video_fps  # 40ms for 25fps
         next_frame_time = None  # Will be set on first frame
 
-        print("TalkBoxGenerator: Starting frame iterator")
+        print("AvatarHarnessGenerator: Starting frame iterator")
 
         while not self._stop_event.is_set():
             try:
@@ -435,7 +435,7 @@ class TalkBoxGenerator(VideoGenerator):
 
                 if frame_count % 50 == 1:
                     print(
-                        f"TalkBoxGenerator: Yielding frame {frame_count}, queue size: {queue_size}, type: {frame.type}"
+                        f"AvatarHarnessGenerator: Yielding frame {frame_count}, queue size: {queue_size}, type: {frame.type}"
                     )
 
                 last_yield_time = current_time
@@ -467,7 +467,7 @@ class TalkBoxGenerator(VideoGenerator):
                 # Log stats periodically
                 if frame_count % 50 == 1:
                     print(
-                        f"TalkBoxGenerator: frame={frame_count}, video={video_frame_count}, audio={audio_frame_count}, type={frame.type}, queue={self._frame_queue.qsize()}"
+                        f"AvatarHarnessGenerator: frame={frame_count}, video={video_frame_count}, audio={audio_frame_count}, type={frame.type}, queue={self._frame_queue.qsize()}"
                     )
 
                 # Track speech segment state
@@ -477,12 +477,12 @@ class TalkBoxGenerator(VideoGenerator):
                 # Yield AudioSegmentEnd based on final_chunk flag OR transition to idle
                 # Use final_chunk if available, otherwise detect transition
                 if frame.final_chunk:
-                    print("TalkBoxGenerator: final_chunk=True, yielding AudioSegmentEnd")
+                    print("AvatarHarnessGenerator: final_chunk=True, yielding AudioSegmentEnd")
                     yield AudioSegmentEnd()
                     in_speech_segment = False
                 elif in_speech_segment and frame.type == FrameType.IDLE:
                     # Fallback: transition from speaking to idle without final_chunk
-                    print("TalkBoxGenerator: Speech->Idle transition, yielding AudioSegmentEnd")
+                    print("AvatarHarnessGenerator: Speech->Idle transition, yielding AudioSegmentEnd")
                     yield AudioSegmentEnd()
                     in_speech_segment = False
 
@@ -511,14 +511,14 @@ class TalkBoxGenerator(VideoGenerator):
 
             except queue.Empty:
                 if self._stop_event.is_set():
-                    print("TalkBoxGenerator: Stop event set, exiting iterator")
+                    print("AvatarHarnessGenerator: Stop event set, exiting iterator")
                     break
                 await asyncio.sleep(0.01)
             except Exception as e:
-                print(f"TalkBoxGenerator: Iterator error: {e}")
+                print(f"AvatarHarnessGenerator: Iterator error: {e}")
                 raise
 
-        print("TalkBoxGenerator: Frame iterator stopped")
+        print("AvatarHarnessGenerator: Frame iterator stopped")
 
     # --- Properties ---
 
@@ -545,13 +545,13 @@ class TalkBoxGenerator(VideoGenerator):
     def get_output_frame_nowait(self) -> OutputFrame:
         """Return the next generated frame without blocking the asyncio loop."""
         if self._frame_queue is None:
-            raise RuntimeError("TalkBoxGenerator is not started")
+            raise RuntimeError("AvatarHarnessGenerator is not started")
         return self._frame_queue.get_nowait()
 
     def get_idle_fallback(self) -> OutputFrame:
         """Advance cached idle motion while the CUDA producer is busy."""
         if self._idle_pusher is None or self._frame_queue is None:
-            raise RuntimeError("TalkBoxGenerator is not started")
+            raise RuntimeError("AvatarHarnessGenerator is not started")
         frame = self._idle_pusher.next_idle_frame()
         self._frame_queue.remember(frame)
         return frame

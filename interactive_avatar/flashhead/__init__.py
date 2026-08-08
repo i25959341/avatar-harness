@@ -1,4 +1,4 @@
-"""Live SoulX-FlashHead integration for Talkbox."""
+"""Live SoulX-FlashHead integration for Avatar Harness."""
 
 from .config import FlashHeadConfig
 from .runtime import FlashHeadRuntime

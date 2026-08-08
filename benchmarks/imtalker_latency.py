@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Latency test for TalkBox adaptive chunking.
+Latency test for Avatar Harness adaptive chunking.
 
 Tests different chunk configurations to measure time-to-first-frame (TTFF)
 with realistic streaming audio input.
@@ -104,7 +104,7 @@ def measure_ttff(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="TalkBox latency test")
+    parser = argparse.ArgumentParser(description="Avatar Harness latency test")
     parser.add_argument("--source", type=str, required=True, help="Source image")
     parser.add_argument("--audio", type=str, required=True, help="Test audio file")
     args = parser.parse_args()

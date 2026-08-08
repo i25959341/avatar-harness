@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a short-lived LiveKit Meet URL for a Talkbox room."""
+"""Create a short-lived LiveKit Meet URL for an Avatar Harness room."""
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ def main() -> int:
     if importlib.util.find_spec("livekit") is None:
         python = next((candidate for candidate in VENV_PYTHONS if candidate.is_file()), None)
         if python is None:
-            print("error: no TalkBox environment with LiveKit was found", file=sys.stderr)
+            print("error: no Avatar Harness environment with LiveKit was found", file=sys.stderr)
             return 1
         return subprocess.run(
             [str(python), str(Path(__file__).resolve()), *sys.argv[1:]],

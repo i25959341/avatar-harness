@@ -1,4 +1,4 @@
-"""Live IMTalker integration for Talkbox."""
+"""Live IMTalker integration for Avatar Harness."""
 
 from .config import IMTalkerConfig
 from .session import IMTalkerLiveAvatar

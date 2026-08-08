@@ -1,6 +1,6 @@
 # FlashHead
 
-SoulX-FlashHead Lite is TalkBox's recommended backend. It publishes 512x512 video at
+SoulX-FlashHead Lite is Avatar Harness's recommended backend. It publishes 512x512 video at
 25 FPS, plays a moving idle clip, and generates motion bridges around speech and
 interruption. The pinned upstream source is Apache-2.0; review checkpoint and asset terms
 separately.
@@ -38,7 +38,7 @@ third_party/SoulX-FlashHead/.venv/bin/hf download \
 ```
 
 FlashHead's optional MediaPipe dependency conflicts with LiveKit's Protobuf version. The
-TalkBox runtime disables that face-crop path; `uv pip check` may report the upstream
+Avatar Harness disables that face-crop path; `uv pip check` may report the upstream
 metadata conflict.
 
 ## Configuration
