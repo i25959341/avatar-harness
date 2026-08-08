@@ -1,0 +1,12 @@
+[submodule "avatar_models/imtalker"]
+	path = avatar_models/imtalker
+	url = https://github.com/cbsjtu01/IMTalker.git
+[submodule "third_party/SoulX-FlashHead"]
+	path = third_party/SoulX-FlashHead
+	url = https://github.com/Soul-AILab/SoulX-FlashHead.git
+[submodule "third_party/avtr-1"]
+	path = third_party/avtr-1
+	url = https://github.com/avaturn-live/avtr-1.git
+[submodule "third_party/InteractiveAvatarForcing"]
+	path = third_party/InteractiveAvatarForcing
+	url = https://github.com/TaekyungKi/AvatarForcing.git

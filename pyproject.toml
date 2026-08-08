@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "talkbox-avatar"
+version = "0.1.0"
+description = "Run open-source talking-head models as real-time LiveKit avatars"
+readme = "README.md"
+requires-python = ">=3.10,<3.11"
+license = "Apache-2.0"
+dependencies = [
+  "httpx>=0.28,<0.29",
+  "livekit-agents>=1.6,<1.7",
+  "numpy>=1.26,<2",
+  "opencv-python-headless>=4.11,<5",
+  "Pillow>=10",
+  "torch>=2.7,<2.8",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8,<9",
+  "ruff>=0.15,<0.16",
+]
+
+[project.urls]
+Homepage = "https://github.com/i25959341/talkbox"
+Issues = "https://github.com/i25959341/talkbox/issues"
+Repository = "https://github.com/i25959341/talkbox.git"
+
+[tool.setuptools.packages.find]
+include = ["interactive_avatar*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit"]
+
+[tool.ruff]
+line-length = 100
+extend-exclude = ["avatar_models", "third_party"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"benchmarks/*.py" = ["E402"]
+"tests/integration/imtalker_sync.py" = ["E402"]
+"tools/generate_idle_cache.py" = ["E402"]

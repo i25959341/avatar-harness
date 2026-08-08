@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Environments and local editor state
+.venv/
+.pixi-local/
+venv/
+env/
+.claude/
+.agents/
+.codex/
+/agents/
+
+# Credentials
+.env
+.env.*
+!.env.example
+/resounding-node-*.json
+/service-account*.json
+
+# Downloaded checkpoints and generated caches
+/checkpoints/
+/third_party/SoulX-FlashHead/models/
+/third_party/avtr-1/artifacts/
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+
+# Generated media and reports
+/outputs/
+/results/
+*_preview.mp4
