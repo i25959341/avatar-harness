@@ -5,6 +5,7 @@ import logging
 import time
 from collections import deque
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 import cv2
 import numpy as np
@@ -12,7 +13,9 @@ from livekit import rtc
 from livekit.agents.voice.avatar import AudioSegmentEnd, QueueAudioOutput
 
 from .config import InteractiveAvatarForcingConfig
-from .runtime import InteractiveAvatarForcingRuntime
+
+if TYPE_CHECKING:
+    from .runtime import InteractiveAvatarForcingRuntime
 
 logger = logging.getLogger(__name__)
 

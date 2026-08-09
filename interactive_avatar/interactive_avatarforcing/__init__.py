@@ -1,5 +1,6 @@
+from typing import Any
+
 from .config import InteractiveAvatarForcingConfig
-from .runtime import InteractiveAvatarForcingRuntime, InteractiveBlockResult, RuntimeSnapshot
 
 __all__ = [
     "InteractiveAvatarForcingConfig",
@@ -7,3 +8,15 @@ __all__ = [
     "InteractiveBlockResult",
     "RuntimeSnapshot",
 ]
+
+
+def __getattr__(name: str) -> Any:
+    if name in {
+        "InteractiveAvatarForcingRuntime",
+        "InteractiveBlockResult",
+        "RuntimeSnapshot",
+    }:
+        from . import runtime
+
+        return getattr(runtime, name)
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
